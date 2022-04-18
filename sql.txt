@@ -1,0 +1,184 @@
+Select
+
+select * from employees;
+select * from DEPARTMENTS;
+
+Where
+
+select EMPLOYEE_NAME,JOB,HIREDATE from EMPLOYEES;
+
+select  distinct JOB from EMPLOYEES;
+
+select * from DEPARTMENTS
+where COUNTRY = 'UNITED KINGDOM';
+
+select * from EMPLOYEES
+where JOB = 'SALESMAN';
+
+select * from EMPLOYEES
+where JOB != 'SALESMAN';
+
+select * from EMPLOYEES
+where not JOB = 'SALESMAN';
+
+select * from EMPLOYEES
+where SALARY= 800;
+
+select * from EMPLOYEES
+where SALARY= 800 and MANAGER_ID=7902;
+
+select * from EMPLOYEES
+where SALARY= 800 or MANAGER_ID=4736;
+
+Order by
+
+select * from  EMPLOYEES
+order by EMPLOYEE_NAME asc;
+
+select * from  EMPLOYEES
+order by EMPLOYEE_NAME desc ;
+
+select * from  EMPLOYEES
+order by EMPLOYEE_NAME ,JOB asc;
+
+Insert
+
+Insert into employees (
+                           employee_id ,
+                           employee_name,
+                           job ,
+                           manager_id,
+                           hiredate,
+                           salary ,
+                           commission,
+                           department_id
+)
+values(
+       7524,
+       'Emmanuel',
+       'SALESMAN',
+       7698,
+       to_date('02-11-1982','dd-mm-yy'),
+       2000,
+       50,
+       15
+      );
+
+Null
+
+select* from EMPLOYEES where COMMISSION is null ;
+select* from EMPLOYEES where MANAGER_ID is null ;
+select* from EMPLOYEES where MANAGER_ID is not null ;
+
+Update
+
+Update employees
+set job='MANAGER',
+employee_NAME='TOMBURA'
+where employee_id =7369;
+
+
+delete from  employees where employee_name='TOMBURA';
+delete from EMPLOYEES;//this will delete all records from the table.
+
+Functions
+
+select sum(salary) as totalSalary from employees;
+
+select max(salary) as mostPaid  from employees;
+select min(salary) as leasttPaid  from employees;
+select avg(salary) as avgPaid  from employees;
+select avg(salary) as avgPaid  from employees;
+select count(*) as dept_ID from EMPLOYEES whe
+
+Like
+
+select * from EMPLOYEES where EMPLOYEE_NAME like 'S%';
+select * from EMPLOYEES where EMPLOYEE_NAME like '%S';
+select * from EMPLOYEES where EMPLOYEE_NAME like 'S%H';
+select * from EMPLOYEES where EMPLOYEE_NAME like '%S%';
+select * from EMPLOYEES where EMPLOYEE_NAME not like 'S%';
+select * from EMPLOYEES where EMPLOYEE_NAME like '_M%';
+select * from EMPLOYEES where EMPLOYEE_NAME like '[AWS]%';
+select * from EMPLOYEES where EMPLOYEE_NAME not like '[AWJ]%';
+select * from EMPLOYEES where EMPLOYEE_NAME like '[A-S]%';
+
+IN
+
+Select * from EMPLOYEES where MANAGER_ID in('7698' , '7839');
+Select * from EMPLOYEES where MANAGER_ID not in('7698' , '7839');
+
+Between
+
+select* from EMPLOYEES where SALARY between 1100 and  2000;
+select* from EMPLOYEES where SALARY not between 1100 and  2000;
+select* from EMPLOYEES where SALARY between 1100 and  2000 order by SALARY asc ;
+
+Alias
+
+select EMPLOYEE_NAME as Name,JOB,MANAGER_ID,SALARY from EMPLOYEES
+select * from employees as Details;
+
+Join
+
+select* from EMPLOYEES left outer join DEPARTMENTS D on D.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID;
+select* from EMPLOYEES right outer join DEPARTMENTS D on D.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID;
+select* from EMPLOYEES full outer join DEPARTMENTS D on D.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID;
+select* from EMPLOYEES inner join DEPARTMENTS D on D.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID;
+
+
+Joins
+
+select * from EMPLOYEES right outer join DEPARTMENTS D on D.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID;
+select * from EMPLOYEES left outer join DEPARTMENTS D on D.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID;
+select * from EMPLOYEES  join DEPARTMENTS D on D.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID;
+select * from EMPLOYEES  full outer join DEPARTMENTS D on D.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID;
+
+Group by
+
+select count(DEPARTMENT_ID),COUNTRY from DEPARTMENTS group by COUNTRY;
+select count(EMPLOYEE_ID) as ID,MANAGER_ID  as Manager from EMPLOYEES group by MANAGER_ID;
+
+Altering
+Column
+Database 
+
+create database play;
+drop database play;
+drop table Persons;
+truncate table Persons;
+alter table EMPLOYEES add  birthDay date;
+alter table EMPLOYEES drop column birthDay;
+
+create table Persons
+(
+    PersonID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+);
+
+select * from Persons;
+
+Case
+
+select EMPLOYEE_NAME,JOB,SALARY,
+Case
+  when SALARY >2000 then 'High Paid'
+  when SALARY between 1000 and 2000 then 'Mediam Paid'
+  else 'Low Paid'
+end as salayCommends
+from EMPLOYEES  inner join DEPARTMENTS D on D.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID
+where salary is not null
+order by SALARY;
+
+select EMPLOYEE_NAME,JOB,SALARY,
+       Case
+           when JOB ='SALESMAN' then (SALARY+EMPLOYEES.SALARY*0.10)
+           when JOB ='CLERK' then (SALARY+EMPLOYEES.SALARY*0.20)
+           else SALARY
+       end as DISCOUNT
+from EMPLOYEES  inner join DEPARTMENTS D on D.DEPARTMENT_ID = EMPLOYEES.DEPARTMENT_ID
+where salary is not null
+order by SALARY;
